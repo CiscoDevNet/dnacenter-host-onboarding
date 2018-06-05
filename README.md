@@ -44,7 +44,7 @@ Setup local environment variables for your DNA Center.  *Provide the info for yo
     export DNAC_USERNAME=admin
     export DNAC_PASSWORD=Cisco123
 
-> The file `src_dnac.example` is provided in the repo.  You can create a local `src_danc` file with your information and then `source src_dnac` to simplify the env setup.  
+> The file `src_dnac.example` is provided in the repo.  You can create a local `src_dnac` file with your information and then `source src_dnac` to simplify the env setup.  
 
 # Using the Application 
 Once installed and setup, you can now get started.  
