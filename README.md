@@ -73,26 +73,27 @@ Look at the available templates.  Each template will provide the required parame
     
     # OUTPUT
     Retrieving the templates available
-    ╒═════════════════════════╤═══════════════════════╤══════════════════════════════════════╤═══════════════════╤═══════════════════════════════════════╕
-    │ Template Name           │ Parameters            │ Content                              │ Device Types      │ Deploy Command                        │
-    ╞═════════════════════════╪═══════════════════════╪══════════════════════════════════════╪═══════════════════╪═══════════════════════════════════════╡
-    │ ChangeDescription       │ description           │ interface $interface                 │ Switches and Hubs │ ./onboard.py deploy \                 │
-    │                         │ interface             │   ! added by DNAC                    │                   │  --template ChangeDescription \       │
-    │                         │                       │   description $description           │                   │  --target DEVICE \                    │
-    │                         │                       │                                      │                   │  "description=VALUE" \                │
-    │                         │                       │                                      │                   │  "interface=VALUE"                    │
-    ├─────────────────────────┼───────────────────────┼──────────────────────────────────────┼───────────────────┼───────────────────────────────────────┤
-    │ NetworkDeviceOnboarding │ INTERFACE             │ interface $INTERFACE                 │ Switches and Hubs │ ./onboard.py deploy \                 │
-    │                         │ INTERFACE_DESCRIPTION │   description $INTERFACE_DESCRIPTION │                   │  --template NetworkDeviceOnboarding \ │
-    │                         │ VLAN                  │   switchport mode access             │                   │  --target DEVICE \                    │
-    │                         │                       │   switchport access vlan $VLAN       │                   │  "INTERFACE=VALUE" \                  │
-    │                         │                       │   no shut                            │                   │  "INTERFACE_DESCRIPTION=VALUE" \      │
-    │                         │                       │                                      │                   │  "VLAN=VALUE"                         │
-    ├─────────────────────────┼───────────────────────┼──────────────────────────────────────┼───────────────────┼───────────────────────────────────────┤
-    │ ChangeTZ                │                       │ clock timezone +10                   │ Switches and Hubs │ ./onboard.py deploy \                 │
-    │                         │                       │                                      │ Routers           │  --template ChangeTZ \                │
-    │                         │                       │                                      │                   │  --target DEVICE                      │
-    ╘═════════════════════════╧═══════════════════════╧══════════════════════════════════════╧═══════════════════╧═══════════════════════════════════════╛
+    ╒═════════════════════════╤═══════════════════════╤═══════════════════════════════════════╤══════════════════════════════════════╤═══════════════════╕
+    │ Template Name           │ Parameters            │ Deploy Command                        │ Content                              │ Device Types      │
+    ╞═════════════════════════╪═══════════════════════╪═══════════════════════════════════════╪══════════════════════════════════════╪═══════════════════╡
+    │ ChangeTZ                │                       │ ./onboard.py deploy \                 │ clock timezone +10                   │ Switches and Hubs │
+    │                         │                       │  --template ChangeTZ \                │                                      │ Routers           │
+    │                         │                       │  --target DEVICE                      │                                      │                   │
+    ├─────────────────────────┼───────────────────────┼───────────────────────────────────────┼──────────────────────────────────────┼───────────────────┤
+    │ NetworkDeviceOnboarding │ VLAN                  │ ./onboard.py deploy \                 │ interface $INTERFACE                 │ Switches and Hubs │
+    │                         │ INTERFACE_DESCRIPTION │  --template NetworkDeviceOnboarding \ │   description $INTERFACE_DESCRIPTION │                   │
+    │                         │ INTERFACE             │  --target DEVICE \                    │   switchport mode access             │                   │
+    │                         │                       │  "VLAN=VALUE" \                       │   switchport access vlan $VLAN       │                   │
+    │                         │                       │  "INTERFACE_DESCRIPTION=VALUE" \      │   no shut                            │                   │
+    │                         │                       │  "INTERFACE=VALUE"                    │                                      │                   │
+    ├─────────────────────────┼───────────────────────┼───────────────────────────────────────┼──────────────────────────────────────┼───────────────────┤
+    │ ChangeDescription       │ interface             │ ./onboard.py deploy \                 │ interface $interface                 │ Switches and Hubs │
+    │                         │ description           │  --template ChangeDescription \       │   ! added by DNAC                    │                   │
+    │                         │                       │  --target DEVICE \                    │   description $description           │                   │
+    │                         │                       │  "interface=VALUE" \                  │                                      │                   │
+    │                         │                       │  "description=VALUE"                  │                                      │                   │
+    ╘═════════════════════════╧═══════════════════════╧═══════════════════════════════════════╧══════════════════════════════════════╧═══════════════════╛    
+
     
 If needed, retrieve the list of devices (with `./onboard.py device_list`) or interfaces (with `./onboard.py interface_list DEVICE_NAME`).  
 

@@ -43,7 +43,7 @@ dnacp = Api(ip=DNAC_IP, username=DNAC_USERNAME, password=DNAC_PASSWORD)
 
 @click.group()
 def cli():
-    """Command line tool for deploying templates to DNA Center. 
+    """Command line tool for deploying templates to DNA Center.
     """
     pass
 
@@ -123,7 +123,7 @@ def template_list():
     from dnacsdk.templateProgrammer import Template
     templates = Template.get_all(dnacp)
 
-    headers = ["Template Name", "Parameters", "Content", "Device Types", "Deploy Command"]
+    headers = ["Template Name", "Parameters", "Deploy Command", "Content", "Device Types"]
     table = list()
 
     for template in templates:
@@ -135,12 +135,6 @@ def template_list():
                 ]
             )
         )
-        tr.append(template.info["templateContent"])
-        tr.append("\n".join(
-            [type["productFamily"] for type in template.info["deviceTypes"]]
-            )
-        )
-
         cmd = "./onboard.py deploy \\\n --template {} \\\n --target {} ".format(
                 template.name,
                 "DEVICE"
@@ -152,9 +146,12 @@ def template_list():
             ]
         )
         cmd = cmd + params_cmd
-
         tr.append(cmd)
-
+        tr.append(template.info["templateContent"])
+        tr.append("\n".join(
+            [type["productFamily"] for type in template.info["deviceTypes"]]
+            )
+        )
         table.append(tr)
     try:
         click.echo(tabulate.tabulate(table, headers, tablefmt="fancy_grid"))
