@@ -43,6 +43,8 @@ dnacp = Api(ip=DNAC_IP, username=DNAC_USERNAME, password=DNAC_PASSWORD)
 
 @click.group()
 def cli():
+    """Command line tool for deploying templates to DNA Center. 
+    """
     pass
 
 @click.command()
