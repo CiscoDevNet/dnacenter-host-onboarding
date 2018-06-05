@@ -1,26 +1,18 @@
 #! /usr/bin/env python
-"""
+"""Command Line Interface Tool for Deploying Templates to DNA Center.
 
 
-Copyright (c) 2018 Cisco and/or its affiliates.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Copyright (c) {{current_year}} Cisco and/or its affiliates.
+This software is licensed to you under the terms of the Cisco Sample
+Code License, Version 1.0 (the "License"). You may obtain a copy of the
+License at
+               https://developer.cisco.com/docs/licenses
+All use of the material herein must be in accordance with the terms of
+the License. All rights not expressly granted by the License are
+reserved. Unless required by applicable law or agreed to separately in
+writing, software distributed under the License is distributed on an "AS
+IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
 """
 
 import os
@@ -28,6 +20,10 @@ from dnacsdk.api import Api
 import urllib3
 import click
 import tabulate
+
+__author__ = "Hank Preston <hapresto@cisco.com>"
+__copyright__ = "Copyright (c) 2018 Cisco and/or its affiliates."
+__license__ = "Cisco Sample Code License, Version 1.0"
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -52,6 +48,13 @@ def cli():
 @click.command()
 def device_list():
     """Retrieve and return network devices list.
+
+        Returns the hostname, management IP, and family of each device.
+
+        Example command:
+
+            ./onboard.py device_list
+
     """
     click.secho("Retrieving the devices.")
 
@@ -74,7 +77,12 @@ def device_list():
 def interface_list(device):
     """Retrieve the list of interfaces on a device.
 
-    Requires the hostname of the device to retrieve interfaces from.
+        Returns the port name, status, description, and vlan information.
+
+        Example command:
+
+            ./onboard.py inteface_list switch1
+
     """
     click.secho("Retrieving the interfaces for {}.".format(device))
 
@@ -101,13 +109,19 @@ def interface_list(device):
 @click.command()
 def template_list():
     """Retrieve the deployment templates that are available.
+
+        Returns the template name, parameters, content, and device types.
+
+        Example command:
+
+            ./onboard.py template_list
     """
-    click.secho("Retrieving the templates avaailable")
+    click.secho("Retrieving the templates available")
 
     from dnacsdk.templateProgrammer import Template
     templates = Template.get_all(dnacp)
 
-    headers = ["Template Name", "Parameters", "Content", "Device Types"]
+    headers = ["Template Name", "Parameters", "Content", "Device Types", "Deploy Command"]
     table = list()
 
     for template in templates:
@@ -124,6 +138,21 @@ def template_list():
             [type["productFamily"] for type in template.info["deviceTypes"]]
             )
         )
+
+        cmd = "./onboard.py deploy \\\n --template {} \\\n --target {} ".format(
+                template.name,
+                "DEVICE"
+            )
+        params_cmd = " ".join(
+            [
+                '\\\n "{}=VALUE"'.format(param["parameterName"])
+                for param in template.info["templateParams"]
+            ]
+        )
+        cmd = cmd + params_cmd
+
+        tr.append(cmd)
+
         table.append(tr)
     try:
         click.echo(tabulate.tabulate(table, headers, tablefmt="fancy_grid"))
@@ -136,11 +165,22 @@ def template_list():
 @click.option("--target", help="Hostname of target network device.")
 @click.argument("parameters", nargs=-1)
 def deploy(template, target, parameters):
-    """Function to onboard a new network attached host
+    """Deploy a template with DNA Center.
 
+        Provide all template parameters and their values as arguements in the format of: "PARAMTER=VALUE"
+
+        You can find the list of parameters using:
+          ./onboard.py template_list
+
+        Example command:
+
+          ./onboard.py deploy --template VLANSetup --target switch1 \\\n"VLANID=3001" "VLANNAME=Data"
     """
+    click.secho("Attempting deployment.")
+
     from dnacsdk.networkDevice import NetworkDevice
     from dnacsdk.templateProgrammer import Template
+
 
     device = NetworkDevice(dnacp, hostname = target)
     template = Template(dnacp, name = template)
