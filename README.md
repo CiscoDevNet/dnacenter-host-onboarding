@@ -1,8 +1,13 @@
-# dnacenter-host-onboarding
-Sample code and application to simplifying on-boarding new hosts to the network with DNA Center 
+# Project `onboard`
+## Our "Intent" - Making Onboarding Easy 
+Enterprise networks today are dynamic environments made up of wired and wireless clients that fit into a wide variety of categories.  Long gone are the days when the only things connected to our networks were corporate PCs, printers, and phones.  We still have those today, but our networks today also consist of cameras, door locks, motion sensors, window blinds, HVAC systems, pop machines, coffee makers... In fact, as the Internet of Things, and "smart buildings" are becoming the reality, these "non-traditional" devices are the majority of our clients... and these clients multiple like rabbits.  
 
-# Making Onboarding Easy 
-The goal of this application is to make it easy to leverage the deployment templates from DNA Center in a scriptable and automated fashion.  The main application is a CLI tool that users can use to deploy any template available in DNA Center to any device.  
+The challenge many organizations have is quickly onboarding these devices without compromising the security and preformance of their network for the critical business applications and work that is also going on.  Expecting senior network engineers to personally address each and every request is impractical... What is needed is a way for our senior architects and engineers to define policies that can be rapidly applied to new devices when these requests are made.  
+
+DNA Center offers enterprises all the tools to meet the automation and assurance needs to translate the business intent - quickly bringing new systems online - to technical intent.  
+
+# Enter Project `onboard`
+The goal of this application is to make it easy to leverage the deployment templates from DNA Center in a scriptable and automated fashion to arm IT operations teams to keep up with the demands of the business.  The main application is a CLI tool that users can use to deploy any template available in DNA Center to any device.  
 
 **Example Usage:** 
 
