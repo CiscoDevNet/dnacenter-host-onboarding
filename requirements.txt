@@ -1,13 +1,16 @@
-asn1crypto==0.24.0
-certifi==2018.4.16
-cffi==1.11.5
+-i https://pypi.org/simple/
+asn1crypto==1.2.0
+certifi==2019.9.11
+cffi==1.13.0
 chardet==3.0.4
 click==6.7
 cryptography==1.9
-idna==2.6
+enum34==1.1.6
+idna==2.7
+ipaddress==1.0.23
 jwt==0.5.3
-pycparser==2.18
-requests==2.18.4
-six==1.11.0
+pycparser==2.19
+requests==2.20.0
+six==1.12.0
 tabulate==0.8.2
-urllib3==1.22
+urllib3==1.24.3
